@@ -10,7 +10,7 @@ true_news <- read_csv("~/R/datasets/Fake and True News/True.csv") %>%
   mutate(type = factor("fake"))
 fake_news <- read_csv("~/R/datasets/Fake and True News/Fake.csv") %>% 
   mutate(type = factor("true"))
-news <- sample_n(left_join(fake_news,true_news), 44898) %>% 
+news <- sample_n(full_join(fake_news,true_news), 44897) %>% 
   select(-title, -subject, -date)
 news
 table(news$type)
@@ -19,7 +19,7 @@ as.character(news_corpus[[10]])
 replacepunt <- function(p){
   gsub("([[:punct:]]+)", " ", p)
 }
-news_corpus_clean <- DocumentTermMatrix(news_corpus, 
+news_corpus_clean <- tm_map(news_corpus, 
                                         control = list(
                                           tolower = TRUE,
                                           removeNumbers = TRUE,
